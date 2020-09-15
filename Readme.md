@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Владимир Гирба](https://up.htmlacademy.ru/javascript/21/user/1541235).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Ермолин] (https://htmlacademy.ru/profile/id123103).
 
 ---
 
