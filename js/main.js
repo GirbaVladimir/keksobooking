@@ -5,19 +5,18 @@
   const AD_CHECKIN = [`12:00`, `13:00`, `14:00`];
   const AD_CHECKOUT = [`12:00`, `13:00`, `14:00`];
   const AD_FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
-  const PIN_SIZE = 8;
+  const PIN_AMOUNT = 8;
+  const PIN_HEIGHT = 70;
+  const PIN_WIDTH = 50;
+
 
   const randomInteger = function (min, max) {
-    let rand = min + Math.random() * (max + 1 - min);
+    const rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
   };
 
-  const getOverlayWidth = function () {
-    return document.querySelector(`.map__overlay`).clientWidth;
-  };
-
   const createRandomPhotos = function () {
-    let photos = [];
+    const photos = [];
 
     for (let i = 1; i < randomInteger(1, 30); i++) {
       photos.push(`http://o0.github.io/assets/images/tokyo/hotel${i}.jpg`);
@@ -26,10 +25,10 @@
     return photos;
   };
 
-  const createArray = function () {
-    let arr = [];
-    for (let i = 0; i < PIN_SIZE; i++) {
-      const x = randomInteger(0, getOverlayWidth());
+  const createAdArray = function () {
+    const arr = [];
+    for (let i = 0; i < PIN_AMOUNT; i++) {
+      const x = randomInteger(0, document.querySelector(`.map__overlay`).clientWidth);
       const y = randomInteger(130, 630);
 
       arr.push(
@@ -63,7 +62,7 @@
   const createAd = function (arr) {
     const newPin = document.querySelector(`#pin`).content.cloneNode(true);
     let pinButton = newPin.querySelector(`.map__pin`);
-    pinButton.style.cssText = `left: ${arr.location.x - 25}px; top: ${arr.location.y - 70}px;`;
+    pinButton.style.cssText = `left: ${arr.location.x - PIN_WIDTH / 2}px; top: ${arr.location.y - PIN_HEIGHT}px;`;
     let pinPhoto = newPin.querySelector(`img`);
     pinPhoto.src = `${arr.author.avatar}`;
     pinPhoto.alt = `${arr.offer.title}`;
@@ -72,7 +71,7 @@
 
   const placeAds = function () {
     const pins = document.querySelector(`.map__pins`);
-    let pinsArray = createArray();
+    let pinsArray = createAdArray();
 
     let fragment = document.createDocumentFragment();
     for (let i = 0; i < pinsArray.length; i++) {
