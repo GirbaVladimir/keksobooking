@@ -22,7 +22,7 @@
     return photos;
   };
 
-  window.createAdArray = function () {
+  window.createPinArray = function () {
     const arr = [];
     for (let i = 0; i < PIN_AMOUNT; i++) {
       const x = getRandomInteger(0, document.querySelector(`.map__overlay`).clientWidth);
