@@ -14,13 +14,13 @@
     return newPin;
   };
 
-  window.placePinsToContainer = function (pinsArray) {
-    const pins = document.querySelector(`.map__pins`);
+  window.renderPins = function (pinsArray) {
+    const pinsContainer = document.querySelector(`.map__pins`);
 
-    let fragment = document.createDocumentFragment();
+    const fragment = document.createDocumentFragment();
     for (let i = 0; i < pinsArray.length; i++) {
       fragment.appendChild(createPin(pinsArray[i]));
     }
-    pins.appendChild(fragment);
+    pinsContainer.appendChild(fragment);
   };
 })();
