@@ -8,6 +8,18 @@
   const mapPinMain = document.querySelector(`.map__pin--main`);
   const inputCoordinates = document.querySelector(`input[name=address]`);
 
+  const errorHandler = function (errorMessage) {
+    const node = document.createElement(`div`);
+    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red; max-width: 1200px`;
+    node.style.position = `absolute`;
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = `30px`;
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
+  };
+
   const getCoordinates = function (pin) {
     return `${parseInt(pin.style.left.substr(0, 3), 10) - window.PIN_WIDTH / 2}, ${
       parseInt(pin.style.top.substr(0, 3), 10) - window.PIN_HEIGHT}`;
@@ -18,7 +30,7 @@
   const activateMainPin = function () {
     window.enableFormElements(adFormChildrens);
     window.enableFormElements(mapFormChildrens);
-    window.placePinsToContainer(window.createPinArray());
+    window.backend.load(window.renderPins, errorHandler);
     inputCoordinates.value = getCoordinates(mapPinMain);
     map.classList.remove(`map--faded`);
     adForm.classList.remove(`ad-form--disabled`);
