@@ -22,7 +22,7 @@
     }
   };
 
-  window.enableFormElements = function (arr) {
+  const enableFormElements = function (arr) {
     for (let i = 0; i < arr.length; i++) {
       arr[i].disabled = false;
     }
@@ -84,4 +84,6 @@
       adRooms.setCustomValidity(``);
     }
   });
+
+  window.enableFormElements = enableFormElements;
 })();

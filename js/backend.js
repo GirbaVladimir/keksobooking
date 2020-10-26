@@ -4,16 +4,15 @@
   const SAVE_URL = `https://21.javascript.pages.academy/keksobooking`;
   const LOAD_URL = `https://21.javascript.pages.academy/keksobooking/data`;
   const TIMEOUT_IN_MS = 10000;
-
-  window.backend = {
-    save(data, onLoad, onError) {
+  const backend = {
+    save(data, onSave, onError) {
       const xhr = new XMLHttpRequest();
       xhr.responseType = `json`;
 
       xhr.addEventListener(`load`, function () {
         switch (xhr.status) {
           case 200:
-            onLoad();
+            onSave();
             break;
           default:
             onError(`Статус ответа: : ${xhr.status} ${xhr.statusText}`);
@@ -56,5 +55,7 @@
       xhr.open(`GET`, LOAD_URL);
       xhr.send();
     }
-  };
+  }
+
+  window.backend = backend;
 })();

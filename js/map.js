@@ -7,17 +7,37 @@
   const map = document.querySelector(`.map`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
   const inputCoordinates = document.querySelector(`input[name=address]`);
+  let pinHouseType = `any`;
+  let pins = [];
+  const houseTypeSelect = document.querySelector(`select[name=housing-type]`);
+
+  houseTypeSelect.addEventListener(`change`, function () {
+   pinHouseType = houseTypeSelect.value;
+   updatePins();
+  });
+
+  const updatePins = function () {
+    window.renderPins(function () {
+      const arr = [];
+      for (let i = 0; i < pins.length; i++) {
+        if (pinHouseType === `any` && arr.length < 5) {
+          arr.push(pins[i]);
+        } else if (pinHouseType === pins[i].offer.type) {
+          arr.push(pins[i]);
+        }
+      }
+
+      return arr;
+    }());
+  };
+
+  const successHandler = function (data) {
+    pins = data;
+    updatePins();
+  };
 
   const errorHandler = function (errorMessage) {
-    const node = document.createElement(`div`);
-    node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red; max-width: 1200px`;
-    node.style.position = `absolute`;
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = `30px`;
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement(`afterbegin`, node);
+    window.showError(errorMessage);
   };
 
   const getCoordinates = function (pin) {
@@ -27,10 +47,11 @@
 
   inputCoordinates.value = getCoordinates(mapPinMain);
 
+
   const activateMainPin = function () {
     window.enableFormElements(adFormChildrens);
     window.enableFormElements(mapFormChildrens);
-    window.backend.load(window.renderPins, errorHandler);
+    window.backend.load(successHandler, errorHandler);
     inputCoordinates.value = getCoordinates(mapPinMain);
     map.classList.remove(`map--faded`);
     adForm.classList.remove(`ad-form--disabled`);

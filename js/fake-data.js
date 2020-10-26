@@ -7,11 +7,6 @@
   const AD_CHECKOUT = [`12:00`, `13:00`, `14:00`];
   const AD_FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
 
-  window.getRandomInteger = function (min, max) {
-    const rand = min + Math.random() * (max + 1 - min);
-    return Math.floor(rand);
-  };
-
   const createRandomPhotos = function () {
     const photos = [];
 
