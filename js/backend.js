@@ -55,7 +55,7 @@
       xhr.open(`GET`, LOAD_URL);
       xhr.send();
     }
-  }
+  };
 
   window.backend = backend;
 })();

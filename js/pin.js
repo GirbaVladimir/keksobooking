@@ -20,7 +20,7 @@
       while (pinsContainer.children[2]) {
         pinsContainer.removeChild(pinsContainer.lastChild); // это надо чтобы не удалялось главный пин и заголовок
       }
-    };
+    }
 
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < pinsArray.length; i++) {

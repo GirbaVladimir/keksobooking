@@ -12,8 +12,8 @@
   const houseTypeSelect = document.querySelector(`select[name=housing-type]`);
 
   houseTypeSelect.addEventListener(`change`, function () {
-   pinHouseType = houseTypeSelect.value;
-   updatePins();
+    pinHouseType = houseTypeSelect.value;
+    updatePins();
   });
 
   const updatePins = function () {
