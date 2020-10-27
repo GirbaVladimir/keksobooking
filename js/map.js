@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  const backend = window.backend;
+  const enableFormElements = window.enableFormElements;
+  const renderPins = window.renderPins;
+  const showError = window.showError;
+
   const adForm = document.querySelector(`.ad-form`);
   const adFormChildrens = document.querySelector(`.ad-form`).children;
   const mapFormChildrens = document.querySelector(`.map__filters`).children;
@@ -17,27 +22,25 @@
   });
 
   const updatePins = function () {
-    window.renderPins(function () {
-      const arr = [];
-      for (let i = 0; i < pins.length; i++) {
-        if (pinHouseType === `any` && arr.length < 5) {
-          arr.push(pins[i]);
-        } else if (pinHouseType === pins[i].offer.type) {
-          arr.push(pins[i]);
-        }
+    const filteredPins = [];
+    for (let i = 0; i < pins.length; i++) {
+      if (pinHouseType === `any` && filteredPins.length < 5) {
+        filteredPins.push(pins[i]);
+      } else if (pinHouseType === pins[i].offer.type) {
+        filteredPins.push(pins[i]);
       }
-
-      return arr;
-    }());
+    }
+    renderPins(filteredPins);
   };
 
   const successHandler = function (data) {
     pins = data;
     updatePins();
+    window.renderCard(pins); // пока так
   };
 
   const errorHandler = function (errorMessage) {
-    window.showError(errorMessage);
+    showError(errorMessage);
   };
 
   const getCoordinates = function (pin) {
@@ -49,9 +52,10 @@
 
 
   const activateMainPin = function () {
-    window.enableFormElements(adFormChildrens);
-    window.enableFormElements(mapFormChildrens);
-    window.backend.load(successHandler, errorHandler);
+    enableFormElements(adFormChildrens);
+    enableFormElements(mapFormChildrens);
+    backend.load(successHandler, errorHandler);
+
     inputCoordinates.value = getCoordinates(mapPinMain);
     map.classList.remove(`map--faded`);
     adForm.classList.remove(`ad-form--disabled`);
