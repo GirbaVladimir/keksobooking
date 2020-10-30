@@ -15,6 +15,8 @@
   const adRooms = document.querySelector(`select[name=rooms]`);
   const adCapacity = document.querySelector(`select[name=capacity]`);
   const adSubmit = document.querySelector(`.ad-form__submit`);
+  const adTimeIn = document.querySelector(`select[name=timein]`);
+  const adTimeOut = document.querySelector(`select[name=timeout]`);
 
   const disableFormElements = function (arr) {
     for (let i = 0; i < arr.length; i++) {
@@ -54,21 +56,44 @@
   });
 
   adType.addEventListener(`change`, function () {
-    // добавлю позже валидацию инпута мин цена
-    if (adType.value === `bungalow`) {
-      minAddPrice = 0;
-      adPrice.placeholder = minAddPrice;
-    } else if (adType.value === `flat`) {
-      minAddPrice = 1000;
-      adPrice.placeholder = minAddPrice;
-    } else if (adType.value === `house`) {
-      minAddPrice = 5000;
-      adPrice.placeholder = minAddPrice;
-    } else if (adType.value === `palace`) {
-      minAddPrice = 10000;
-      adPrice.placeholder = minAddPrice;
+    switch (adType.value) {
+      case `bungalow`:
+        minAddPrice = 0;
+        adPrice.placeholder = minAddPrice;
+        break;
+      case `flat`:
+        minAddPrice = 1000;
+        adPrice.placeholder = minAddPrice;
+        break;
+      case `house`:
+        minAddPrice = 5000;
+        adPrice.placeholder = minAddPrice;
+        break;
+      case `palace`:
+        minAddPrice = 10000;
+        adPrice.placeholder = minAddPrice;
+        break;
     }
   });
+
+  const timeInOutChanger = function (selectorForAddEvent, selectorForChangeSelectValue) {
+    selectorForAddEvent.addEventListener(`change`, function () {
+      switch (selectorForAddEvent.value) {
+        case `12:00`:
+          selectorForChangeSelectValue.selectedIndex = 0;
+          break;
+        case `13:00`:
+          selectorForChangeSelectValue.selectedIndex = 1;
+          break;
+        case `14:00`:
+          selectorForChangeSelectValue.selectedIndex = 2;
+          break;
+      }
+    });
+  };
+
+  timeInOutChanger(adTimeIn, adTimeOut);
+  timeInOutChanger(adTimeOut, adTimeIn);
 
   adSubmit.addEventListener(`click`, function () {
 
@@ -82,6 +107,17 @@
       adRooms.setCustomValidity(`100 комнатные помещения не для гостей!`);
     } else {
       adRooms.setCustomValidity(``);
+    }
+
+    // На это ругается ESlint
+    // (adPrice.value < minAddPrice) ?
+    //   adPrice.setCustomValidity(`Минимальная цена для данного типа жилья составляет ${minAddPrice} рублей`)
+    //   : adPrice.setCustomValidity(``);
+
+    if (adPrice.value < minAddPrice) {
+      adPrice.setCustomValidity(`Минимальная цена для данного типа жилья составляет ${minAddPrice} рублей`);
+    } else {
+      adPrice.setCustomValidity(``);
     }
   });
 

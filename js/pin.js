@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  const createCard = window.createCard;
+
   const PIN_HEIGHT = 70;
   const PIN_WIDTH = 50;
   const pinsContainer = document.querySelector(`.map__pins`);
@@ -12,12 +14,15 @@
     const pinPhoto = newPin.querySelector(`img`);
     pinPhoto.src = `${pin.author.avatar}`;
     pinPhoto.alt = `${pin.offer.title}`;
+    createCard(pin);
+
     return newPin;
   };
 
   const renderPins = function (pinsArray) {
     if (pinsContainer.children[2]) {
       while (pinsContainer.children[2]) {
+        document.querySelectorAll(`.map__card`).forEach((el) => el.remove());
         pinsContainer.removeChild(pinsContainer.lastChild); // это надо чтобы не удалялись главный пин и заголовок
       }
     }

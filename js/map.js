@@ -31,12 +31,60 @@
       }
     }
     renderPins(filteredPins);
+    addPinEvent();
+  };
+
+  const openCard = function (card, pin) {
+    const cardsCheckHidden = document.querySelectorAll(`.map__card`);
+    const pinCheckHidden = document.querySelectorAll(`.map__pin`);
+    for (let i = 0; i < cardsCheckHidden.length; i++) {
+      if (!cardsCheckHidden[i].classList.contains(`hidden`)) {
+        closeCard(cardsCheckHidden[i], pinCheckHidden[i + 1]);
+      }
+    }
+    card.classList.remove(`hidden`);
+    pin.classList.add(`map__pin--active`);
+    document.addEventListener(`keydown`, function (evt) {
+      if (evt.key === `Escape`) {
+        closeCard(card, pin);
+      }
+    });
+  };
+
+  const closeCard = function (card, pin) {
+    card.classList.add(`hidden`);
+    pin.classList.remove(`map__pin--active`);
+    document.removeEventListener(`keydown`, function (evt) {
+      if (evt.key === `Escape`) {
+        closeCard(card);
+      }
+    });
+  };
+
+  const addPinEvent = function () {
+    const pinsSelectors = document.querySelectorAll(`.map__pin`);
+    const cardsSelectors = document.querySelectorAll(`.map__card`);
+
+    for (let i = 1; i < pinsSelectors.length; i++) {
+      pinsSelectors[i].addEventListener(`click`, function () {
+        openCard(cardsSelectors[i - 1], pinsSelectors[i]);
+      });
+
+      pinsSelectors[i].addEventListener(`keydown`, function (evt) {
+        if (evt.key === `Escape`) {
+          openCard(cardsSelectors[i - 1], pinsSelectors[i]);
+        }
+      });
+
+      cardsSelectors[i - 1].querySelector(`.popup__close`).addEventListener(`click`, function () {
+        closeCard(cardsSelectors[i - 1], pinsSelectors[i]);
+      });
+    }
   };
 
   const successHandler = function (data) {
     pins = data;
     updatePins();
-    window.renderCard(pins); // пока так
   };
 
   const errorHandler = function (errorMessage) {
