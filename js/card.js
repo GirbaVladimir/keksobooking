@@ -1,9 +1,8 @@
 'use strict';
 
 (function () {
-  const map = document.querySelector(`.map`);
-
   const createCard = function (pin) {
+    const map = document.querySelector(`.map`);
     const newCard = document.querySelector(`#card`).content.cloneNode(true);
     newCard.querySelector(`.popup__title`).textContent = pin.offer.title;
     newCard.querySelector(`.popup__text--address`).textContent = pin.offer.address;
@@ -22,6 +21,8 @@
       case `palace`:
         type.textContent = `Дворец`;
         break;
+      default:
+        type.textContent = `Любой тип жилья`;
     }
     newCard.querySelector(`.popup__text--capacity`).textContent =
       `${pin.offer.rooms} комнаты для ${pin.offer.guests} гостей`;
