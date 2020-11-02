@@ -1,22 +1,28 @@
 'use strict';
 
 (function () {
-  const map = document.querySelector(`.map`);
-
   const createCard = function (pin) {
+    const map = document.querySelector(`.map`);
     const newCard = document.querySelector(`#card`).content.cloneNode(true);
     newCard.querySelector(`.popup__title`).textContent = pin.offer.title;
     newCard.querySelector(`.popup__text--address`).textContent = pin.offer.address;
     newCard.querySelector(`.popup__text--price`).textContent = `${pin.offer.price}₽/ночь`;
     const type = newCard.querySelector(`.popup__type`);
-    if (pin.offer.type === `flat`) {
-      type.textContent = `Квартира`;
-    } else if (pin.offer.type === `bungalow`) {
-      type.textContent = `Бунгало`;
-    } else if (pin.offer.type === `house`) {
-      type.textContent = `Дом`;
-    } else if (pin.offer.type === `palace`) {
-      type.textContent = `Дворец`;
+    switch (pin.offer.type) {
+      case `flat`:
+        type.textContent = `Квартира`;
+        break;
+      case `bungalow`:
+        type.textContent = `Бунгало`;
+        break;
+      case `house`:
+        type.textContent = `Дом`;
+        break;
+      case `palace`:
+        type.textContent = `Дворец`;
+        break;
+      default:
+        type.textContent = `Любой тип жилья`;
     }
     newCard.querySelector(`.popup__text--capacity`).textContent =
       `${pin.offer.rooms} комнаты для ${pin.offer.guests} гостей`;
@@ -32,11 +38,8 @@
       node.classList.add(`popup__feature--${pin.offer.features[i]}`);
       features.appendChild(node);
     }
-    if (pin.offer.description === ``) {
-      newCard.querySelector(`.popup__description`).innerHTML = ``;
-    } else {
-      newCard.querySelector(`.popup__description`).textContent = pin.offer.description;
-    }
+
+    newCard.querySelector(`.popup__description`).textContent = pin.offer.description;
     const photos = newCard.querySelector(`.popup__photos`);
     const photo = newCard.querySelector(`.popup__photo`);
     photos.innerHTML = ``;
@@ -46,13 +49,12 @@
       photos.appendChild(node);
     }
     newCard.querySelector(`.popup__avatar`).src = `${pin.author.avatar}`;
+    newCard.querySelector(`.map__card`).classList.add(`hidden`);
+
+    map.insertBefore(newCard, document.querySelector(`.map__filters-container`));
 
     return newCard;
   };
 
-  const renderCard = function (pinsArray) {
-    map.insertBefore(createCard(pinsArray[0]), document.querySelector(`.map__filters-container`)); // пока что так дальше задание изменится поменяю
-  };
-
-  window.renderCard = renderCard;
+  window.createCard = createCard;
 })();
