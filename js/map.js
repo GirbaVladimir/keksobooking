@@ -20,13 +20,12 @@
   const updatePins = function () {
     const filteredPins = [];
     for (let i = 0; i < pins.length; i++) {
-      if (filteredPins.length < 5) {
-        if (pinHouseType === `any`) {
-          filteredPins.push(pins[i]);
-        } else if (pinHouseType === pins[i].offer.type) {
-          filteredPins.push(pins[i]);
-        }
-      } else {
+      if (pinHouseType === `any`) {
+        filteredPins.push(pins[i]);
+      } else if (pinHouseType === pins[i].offer.type) {
+        filteredPins.push(pins[i]);
+      }
+      if (filteredPins.length > 4) {
         break;
       }
     }
@@ -93,13 +92,7 @@
     showError(errorMessage);
   };
 
-  const getCoordinates = function (pin) {
-    return `${parseInt(pin.style.left.substr(0, 3), 10) - window.PIN_WIDTH / 2}, ${
-      parseInt(pin.style.top.substr(0, 3), 10) - window.PIN_HEIGHT}`;
-  };
-
   window.successHandler = successHandler;
   window.errorHandler = errorHandler;
-  window.getCoordinates = getCoordinates;
   window.mapFilterAddHandlers = mapFilterAddHandlers;
 })();

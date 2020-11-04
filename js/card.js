@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  const createCard = function (pin) {
-    const map = document.querySelector(`.map`);
+  const createHiddenCard = function (pin) {
+
     const newCard = document.querySelector(`#card`).content.cloneNode(true);
     newCard.querySelector(`.popup__title`).textContent = pin.offer.title;
     newCard.querySelector(`.popup__text--address`).textContent = pin.offer.address;
@@ -51,10 +51,8 @@
     newCard.querySelector(`.popup__avatar`).src = `${pin.author.avatar}`;
     newCard.querySelector(`.map__card`).classList.add(`hidden`);
 
-    map.insertBefore(newCard, document.querySelector(`.map__filters-container`));
-
     return newCard;
   };
 
-  window.createCard = createCard;
+  window.createHiddenCard = createHiddenCard;
 })();
