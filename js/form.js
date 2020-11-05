@@ -6,17 +6,9 @@
   const MAX_AD_PRICE = 1000000;
   let minAdPrice = 1000;
 
-  const disableFormElements = function (arr) {
-    for (let i = 0; i < arr.length; i++) {
-      arr[i].disabled = true;
-    }
-  };
-
-  const enableFormElements = function (arr) {
-    for (let i = 0; i < arr.length; i++) {
-      arr[i].disabled = false;
-    }
-  };
+  const disablePage = window.disablePage;
+  const showSuccessSave = window.showSuccessSave;
+  const showErrorSave = window.showErrorSave;
 
   const timeInOutHandler = function (selectorForAddEvent, selectorForChangeSelectValue) {
     selectorForAddEvent.addEventListener(`change`, function () {
@@ -37,6 +29,8 @@
   };
 
   const adFormAddHandlers = function () {
+    const adForm = document.querySelector(`.ad-form`);
+    const adFormReset = document.querySelector(`.ad-form__reset`);
     const adTitle = document.querySelector(`input[name=title]`);
     const adPrice = document.querySelector(`input[name=price]`);
     const adType = document.querySelector(`select[name=type]`);
@@ -115,9 +109,18 @@
         adPrice.setCustomValidity(``);
       }
     });
+
+    adFormReset.addEventListener(`click`, disablePage);
+
+    adForm.addEventListener(`submit`, function (evt) {
+      evt.preventDefault();
+      window.backend.save(new FormData(adForm), function () {
+        disablePage();
+        showSuccessSave();
+      }, showErrorSave);
+
+    });
   };
 
   window.adFormAddHandlers = adFormAddHandlers;
-  window.disableFormElements = disableFormElements;
-  window.enableFormElements = enableFormElements;
 })();

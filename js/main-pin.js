@@ -1,20 +1,16 @@
 'use strict';
 
 (function () {
-  const MAIN_PIN_HEIGHT = 83;
-  const MAIN_PIN_WIDTH = 66;
+  const MAIN_PIN_HEIGHT = window.MAIN_PIN_HEIGHT;
+  const MAIN_PIN_WIDTH = window.MAIN_PIN_WIDTH;
 
+  const getCoordinates = window.getCoordinates;
   const mapFilterAddHandlers = window.mapFilterAddHandlers;
   const adFormAddHandlers = window.adFormAddHandlers;
   const errorHandler = window.errorHandler;
   const successHandler = window.successHandler;
   const backend = window.backend;
   const enableFormElements = window.enableFormElements;
-
-  const getCoordinates = function (pin) {
-    return `${parseInt(pin.style.left.substr(0, 4), 10) + MAIN_PIN_WIDTH / 2}, ${
-      parseInt(pin.style.top.substr(0, 4), 10) + MAIN_PIN_HEIGHT}`;
-  };
 
   const activateMainPin = function () {
     const map = document.querySelector(`.map`);
@@ -98,6 +94,5 @@
     });
   };
 
-  window.getCoordinates = getCoordinates;
   window.addMainPinHandlers = addMainPinHandlers;
 })();

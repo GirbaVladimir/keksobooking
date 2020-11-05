@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  const createHiddenCard = window.createHiddenCard;
-
   const PIN_HEIGHT = 70;
   const PIN_WIDTH = 50;
+
+  const createHiddenCard = window.createHiddenCard;
 
   const createPin = function (pin) {
     const newPin = document.querySelector(`#pin`).content.cloneNode(true);
@@ -40,7 +40,6 @@
     pinsContainer.appendChild(fragment);
   };
 
+  window.cleanPinsAndCards = cleanPinsAndCards;
   window.renderPinsAndCards = renderPinsAndCards;
-  window.PIN_HEIGHT = PIN_HEIGHT;
-  window.PIN_WIDTH = PIN_WIDTH;
 })();

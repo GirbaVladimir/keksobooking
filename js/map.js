@@ -2,37 +2,6 @@
 
 (function () {
 
-  const renderPinsAndCards = window.renderPinsAndCards;
-  const showError = window.showError;
-
-  let pinHouseType = `any`;
-  let pins = [];
-
-  const mapFilterAddHandlers = function () {
-    const houseTypeSelect = document.querySelector(`select[name=housing-type]`);
-
-    houseTypeSelect.addEventListener(`change`, function () {
-      pinHouseType = houseTypeSelect.value;
-      updatePins();
-    });
-  };
-
-  const updatePins = function () {
-    const filteredPins = [];
-    for (let i = 0; i < pins.length; i++) {
-      if (pinHouseType === `any`) {
-        filteredPins.push(pins[i]);
-      } else if (pinHouseType === pins[i].offer.type) {
-        filteredPins.push(pins[i]);
-      }
-      if (filteredPins.length > 4) {
-        break;
-      }
-    }
-    renderPinsAndCards(filteredPins);
-    addPinHandlers();
-  };
-
   const openCard = function (card, pin) {
     const cardsCheckHidden = document.querySelectorAll(`.map__card`);
     const pinCheckHidden = Array.from(document.querySelectorAll(`.map__pin`))
@@ -56,7 +25,7 @@
     pin.classList.remove(`map__pin--active`);
     document.removeEventListener(`keydown`, function (evt) {
       if (evt.key === `Escape`) {
-        closeCard(card);
+        closeCard(card, pin);
       }
     });
   };
@@ -71,11 +40,11 @@
         openCard(cardsSelectors[i], pinsSelectors[i]);
       });
 
-      pinsSelectors[i].addEventListener(`keydown`, function (evt) {
-        if (evt.key === `Escape`) {
-          openCard(cardsSelectors[i], pinsSelectors[i]);
-        }
-      });
+      // pinsSelectors[i].addEventListener(`keydown`, function (evt) {
+      //   if (evt.key === `Enter`) {
+      //     openCard(cardsSelectors[i], pinsSelectors[i]);
+      //   }
+      // });
 
       cardsSelectors[i].querySelector(`.popup__close`).addEventListener(`click`, function () {
         closeCard(cardsSelectors[i], pinsSelectors[i]);
@@ -83,16 +52,5 @@
     }
   };
 
-  const successHandler = function (data) {
-    pins = data;
-    updatePins();
-  };
-
-  const errorHandler = function (errorMessage) {
-    showError(errorMessage);
-  };
-
-  window.successHandler = successHandler;
-  window.errorHandler = errorHandler;
-  window.mapFilterAddHandlers = mapFilterAddHandlers;
+  window.addPinHandlers = addPinHandlers;
 })();
