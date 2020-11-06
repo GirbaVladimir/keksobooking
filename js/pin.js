@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  const createHiddenCard = window.createHiddenCard;
-
   const PIN_HEIGHT = 70;
   const PIN_WIDTH = 50;
 
@@ -17,30 +15,5 @@
     return newPin;
   };
 
-  const cleanPinsAndCards = function () {
-    document.querySelectorAll(`.map__pin`)
-      .forEach((el) => {
-        if (!el.classList.contains(`map__pin--main`)) {
-          el.remove();
-        }
-      });
-    document.querySelectorAll(`.map__card`).forEach((el) => el.remove());
-  };
-
-  const renderPinsAndCards = function (pinsArray) {
-    const map = document.querySelector(`.map`);
-    const pinsContainer = document.querySelector(`.map__pins`);
-    cleanPinsAndCards();
-
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < pinsArray.length; i++) {
-      fragment.appendChild(createPin(pinsArray[i]));
-      map.insertBefore(createHiddenCard(pinsArray[i]), document.querySelector(`.map__filters-container`));
-    }
-    pinsContainer.appendChild(fragment);
-  };
-
-  window.renderPinsAndCards = renderPinsAndCards;
-  window.PIN_HEIGHT = PIN_HEIGHT;
-  window.PIN_WIDTH = PIN_WIDTH;
+  window.createPin = createPin;
 })();

@@ -1,48 +1,41 @@
 'use strict';
 
 (function () {
-  const MAIN_PIN_HEIGHT = 83;
-  const MAIN_PIN_WIDTH = 66;
+  const MAIN_PIN_HEIGHT = window.MAIN_PIN_HEIGHT;
+  const MAIN_PIN_WIDTH = window.MAIN_PIN_WIDTH;
 
-  const mapFilterAddHandlers = window.mapFilterAddHandlers;
-  const adFormAddHandlers = window.adFormAddHandlers;
-  const errorHandler = window.errorHandler;
-  const successHandler = window.successHandler;
+  const page = window.page;
   const backend = window.backend;
-  const enableFormElements = window.enableFormElements;
-
-  const getCoordinates = function (pin) {
-    return `${parseInt(pin.style.left.substr(0, 4), 10) + MAIN_PIN_WIDTH / 2}, ${
-      parseInt(pin.style.top.substr(0, 4), 10) + MAIN_PIN_HEIGHT}`;
-  };
+  const adFormAddHandlers = window.adFormAddHandlers;
+  const util = window.util;
+  const map = window.map;
 
   const activateMainPin = function () {
-    const map = document.querySelector(`.map`);
+    const mapContainer = document.querySelector(`.map`);
     const mapPinMain = document.querySelector(`.map__pin--main`);
     const adFormChildrens = document.querySelector(`.ad-form`).children;
     const mapFormChildrens = document.querySelector(`.map__filters`).children;
     const adForm = document.querySelector(`.ad-form`);
     const inputCoordinates = document.querySelector(`input[name=address]`);
-
-    enableFormElements(adFormChildrens);
-    enableFormElements(mapFormChildrens);
-    backend.load(successHandler, errorHandler);
+    util.enableFormElements(adFormChildrens);
+    util.enableFormElements(mapFormChildrens);
+    backend.load(map.successHandler, map.errorHandler);
     adFormAddHandlers();
-    mapFilterAddHandlers();
-    inputCoordinates.value = getCoordinates(mapPinMain);
-    map.classList.remove(`map--faded`);
+    map.mapFilterAddHandlers();
+    inputCoordinates.value = page.getCoordinates(mapPinMain);
+    mapContainer.classList.remove(`map--faded`);
     adForm.classList.remove(`ad-form--disabled`);
   };
 
   const addMainPinHandlers = function () {
-    const map = document.querySelector(`.map`);
+    const mapContainer = document.querySelector(`.map`);
     const mapPinMain = document.querySelector(`.map__pin--main`);
 
     mapPinMain.addEventListener(`mousedown`, function (evt) {
       evt.preventDefault();
 
       if (evt.button === 0) {
-        if (map.classList.contains(`map--faded`)) {
+        if (mapContainer.classList.contains(`map--faded`)) {
           activateMainPin();
         }
 
@@ -74,14 +67,14 @@
 
             mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + `px`;
             mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
-            inputCoordinates.value = getCoordinates(document.querySelector(`.map__pin--main`));
+            inputCoordinates.value = page.getCoordinates(document.querySelector(`.map__pin--main`));
           }
         };
 
         const onMouseUp = function (upEvt) {
           upEvt.preventDefault();
 
-          inputCoordinates.value = getCoordinates(document.querySelector(`.map__pin--main`));
+          inputCoordinates.value = page.getCoordinates(document.querySelector(`.map__pin--main`));
           document.removeEventListener(`mousemove`, onMouseMove);
           document.removeEventListener(`mouseup`, onMouseUp);
         };
@@ -98,6 +91,5 @@
     });
   };
 
-  window.getCoordinates = getCoordinates;
   window.addMainPinHandlers = addMainPinHandlers;
 })();

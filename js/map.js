@@ -1,21 +1,13 @@
 'use strict';
 
 (function () {
-
-  const renderPinsAndCards = window.renderPinsAndCards;
-  const showError = window.showError;
+  const util = window.util;
+  const pinsAndCards = window.pinsAndCards;
 
   let pinHouseType = `any`;
   let pins = [];
-
-  const mapFilterAddHandlers = function () {
-    const houseTypeSelect = document.querySelector(`select[name=housing-type]`);
-
-    houseTypeSelect.addEventListener(`change`, function () {
-      pinHouseType = houseTypeSelect.value;
-      updatePins();
-    });
-  };
+  let activePin = null;
+  let shownCard = null;
 
   const updatePins = function () {
     const filteredPins = [];
@@ -29,14 +21,23 @@
         break;
       }
     }
-    renderPinsAndCards(filteredPins);
+    pinsAndCards.renderPinsAndCards(filteredPins);
     addPinHandlers();
   };
 
+  const onCardEscPress = function (evt) {
+    if (evt.key === `Escape`) {
+      closeCard(shownCard, activePin);
+    }
+  };
+
   const openCard = function (card, pin) {
+    activePin = pin;
+    shownCard = card;
     const cardsCheckHidden = document.querySelectorAll(`.map__card`);
     const pinCheckHidden = Array.from(document.querySelectorAll(`.map__pin`))
       .filter((el) => !el.classList.contains(`map__pin--main`));
+
     for (let i = 0; i < cardsCheckHidden.length; i++) {
       if (!cardsCheckHidden[i].classList.contains(`hidden`)) {
         closeCard(cardsCheckHidden[i], pinCheckHidden[i]);
@@ -44,21 +45,13 @@
     }
     card.classList.remove(`hidden`);
     pin.classList.add(`map__pin--active`);
-    document.addEventListener(`keydown`, function (evt) {
-      if (evt.key === `Escape`) {
-        closeCard(card, pin);
-      }
-    });
+    document.addEventListener(`keydown`, onCardEscPress);
   };
 
   const closeCard = function (card, pin) {
     card.classList.add(`hidden`);
     pin.classList.remove(`map__pin--active`);
-    document.removeEventListener(`keydown`, function (evt) {
-      if (evt.key === `Escape`) {
-        closeCard(card);
-      }
-    });
+    document.removeEventListener(`keydown`, onCardEscPress);
   };
 
   const addPinHandlers = function () {
@@ -71,28 +64,36 @@
         openCard(cardsSelectors[i], pinsSelectors[i]);
       });
 
-      pinsSelectors[i].addEventListener(`keydown`, function (evt) {
-        if (evt.key === `Escape`) {
-          openCard(cardsSelectors[i], pinsSelectors[i]);
-        }
-      });
-
       cardsSelectors[i].querySelector(`.popup__close`).addEventListener(`click`, function () {
         closeCard(cardsSelectors[i], pinsSelectors[i]);
       });
     }
   };
 
-  const successHandler = function (data) {
-    pins = data;
-    updatePins();
+  const map = {
+
+    resetPinsFilters() {
+      pinHouseType = `any`;
+    },
+
+    mapFilterAddHandlers() {
+      const houseTypeSelect = document.querySelector(`select[name=housing-type]`);
+
+      houseTypeSelect.addEventListener(`change`, function () {
+        pinHouseType = houseTypeSelect.value;
+        updatePins();
+      });
+    },
+
+    successHandler(data) {
+      pins = data;
+      updatePins();
+    },
+
+    errorHandler(errorMessage) {
+      util.showLoadError(errorMessage);
+    }
   };
 
-  const errorHandler = function (errorMessage) {
-    showError(errorMessage);
-  };
-
-  window.successHandler = successHandler;
-  window.errorHandler = errorHandler;
-  window.mapFilterAddHandlers = mapFilterAddHandlers;
+  window.map = map;
 })();
