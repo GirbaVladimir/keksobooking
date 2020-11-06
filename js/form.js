@@ -6,9 +6,9 @@
   const MAX_AD_PRICE = 1000000;
   let minAdPrice = 1000;
 
-  const disablePage = window.disablePage;
-  const showSuccessSave = window.showSuccessSave;
-  const showErrorSave = window.showErrorSave;
+  const page = window.page;
+  const util = window.util;
+  const backend = window.backend;
 
   const timeInOutHandler = function (selectorForAddEvent, selectorForChangeSelectValue) {
     selectorForAddEvent.addEventListener(`change`, function () {
@@ -91,13 +91,13 @@
 
     adSubmit.addEventListener(`click`, function () {
 
-      if (parseInt(adRooms.value, 10) === 1 && parseInt(adCapacity.value, 10) !== 1) {
+      if ((+adRooms.value === 1) && (+adCapacity.value !== 1)) {
         adRooms.setCustomValidity(`1 комнатная квартира только для 1 гостя!`);
-      } else if (parseInt(adRooms.value, 10) === 2 && parseInt(adCapacity.value, 10) > 2) {
+      } else if ((+adRooms.value === 2) && ((+adCapacity.value > 2) || (+adCapacity.value === 0))) {
         adRooms.setCustomValidity(`2 комнатная квартира только для 1 или 2 гостей!`);
-      } else if (parseInt(adRooms.value, 10) === 3 && parseInt(adCapacity.value, 10) > 3) {
+      } else if ((+adRooms.value === 3) && ((+adCapacity.value > 3) || (+adCapacity.value === 0))) {
         adRooms.setCustomValidity(`3 комнатная квартира только для 1, 2 или 3 гостей!`);
-      } else if (parseInt(adRooms.value, 10) === 100 && parseInt(adCapacity.value, 10) !== 0) {
+      } else if ((+adRooms.value === 100) && (+adCapacity.value !== 0)) {
         adRooms.setCustomValidity(`100 комнатные помещения не для гостей!`);
       } else {
         adRooms.setCustomValidity(``);
@@ -110,14 +110,14 @@
       }
     });
 
-    adFormReset.addEventListener(`click`, disablePage);
+    adFormReset.addEventListener(`click`, page.disablePage);
 
     adForm.addEventListener(`submit`, function (evt) {
       evt.preventDefault();
-      window.backend.save(new FormData(adForm), function () {
-        disablePage();
-        showSuccessSave();
-      }, showErrorSave);
+      backend.save(new FormData(adForm), function () {
+        page.disablePage();
+        util.showSuccessSave();
+      }, util.showErrorSave);
 
     });
   };

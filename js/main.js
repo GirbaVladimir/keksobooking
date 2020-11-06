@@ -2,12 +2,12 @@
 
 (function () {
   const addMainPinHandlers = window.addMainPinHandlers;
-  const getCoordinates = window.getCoordinates;
-  const disableFormElements = window.disableFormElements;
+  const page = window.page;
+  const util = window.util;
 
   document.querySelector(`input[name=address]`).value =
-    getCoordinates(document.querySelector(`.map__pin--main`));
-  disableFormElements(document.querySelector(`.ad-form`).children);
-  disableFormElements(document.querySelector(`.map__filters`).children);
+    page.getCoordinates(document.querySelector(`.map__pin--main`));
+  util.disableFormElements(document.querySelector(`.ad-form`).children);
+  util.disableFormElements(document.querySelector(`.map__filters`).children);
   addMainPinHandlers();
 })();
