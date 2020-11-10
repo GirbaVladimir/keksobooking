@@ -1,8 +1,7 @@
 'use strict';
 
 (function () {
-  const createHiddenCard = function (pin) {
-
+  const createHiddenCard = (pin) => {
     const newCard = document.querySelector(`#card`).content.cloneNode(true);
     newCard.querySelector(`.popup__title`).textContent = pin.offer.title;
     newCard.querySelector(`.popup__text--address`).textContent = pin.offer.address;

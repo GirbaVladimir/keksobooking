@@ -2,6 +2,8 @@
 
 (function () {
   const addMainPinHandlers = window.addMainPinHandlers;
+  const addAdFormHandlers = window.addAdFormHandlers;
+  const map = window.map;
   const page = window.page;
   const util = window.util;
 
@@ -10,4 +12,6 @@
   util.disableFormElements(document.querySelector(`.ad-form`).children);
   util.disableFormElements(document.querySelector(`.map__filters`).children);
   addMainPinHandlers();
+  addAdFormHandlers();
+  map.addMapFilterHandlers();
 })();

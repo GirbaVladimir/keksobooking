@@ -10,8 +10,8 @@
   const util = window.util;
   const backend = window.backend;
 
-  const timeInOutHandler = function (selectorForAddEvent, selectorForChangeSelectValue) {
-    selectorForAddEvent.addEventListener(`change`, function () {
+  const addTimeInOutHandler = (selectorForAddEvent, selectorForChangeSelectValue) => {
+    selectorForAddEvent.addEventListener(`change`, () => {
       switch (selectorForAddEvent.value) {
         case `12:00`:
           selectorForChangeSelectValue.selectedIndex = 0;
@@ -28,7 +28,7 @@
     });
   };
 
-  const adFormAddHandlers = function () {
+  const addAdFormHandlers = () => {
     const adForm = document.querySelector(`.ad-form`);
     const adFormReset = document.querySelector(`.ad-form__reset`);
     const adTitle = document.querySelector(`input[name=title]`);
@@ -40,7 +40,7 @@
     const adTimeIn = document.querySelector(`select[name=timein]`);
     const adTimeOut = document.querySelector(`select[name=timeout]`);
 
-    adTitle.addEventListener(`input`, function () {
+    adTitle.addEventListener(`input`, () => {
       const valueLength = adTitle.value.length;
 
       if (valueLength < MIN_AD_TITLE) {
@@ -52,7 +52,7 @@
       }
     });
 
-    adPrice.addEventListener(`input`, function () {
+    adPrice.addEventListener(`input`, () => {
       const valueAmount = parseInt(adPrice.value, 10);
 
       if (valueAmount > MAX_AD_PRICE) {
@@ -62,7 +62,7 @@
       }
     });
 
-    adType.addEventListener(`change`, function () {
+    adType.addEventListener(`change`, () => {
       switch (adType.value) {
         case `bungalow`:
           minAdPrice = 0;
@@ -86,11 +86,10 @@
       }
     });
 
-    timeInOutHandler(adTimeIn, adTimeOut);
-    timeInOutHandler(adTimeOut, adTimeIn);
+    addTimeInOutHandler(adTimeIn, adTimeOut);
+    addTimeInOutHandler(adTimeOut, adTimeIn);
 
-    adSubmit.addEventListener(`click`, function () {
-
+    adSubmit.addEventListener(`click`, () => {
       if ((+adRooms.value === 1) && (+adCapacity.value !== 1)) {
         adRooms.setCustomValidity(`1 комнатная квартира только для 1 гостя!`);
       } else if ((+adRooms.value === 2) && ((+adCapacity.value > 2) || (+adCapacity.value === 0))) {
@@ -110,17 +109,18 @@
       }
     });
 
-    adFormReset.addEventListener(`click`, page.disablePage);
+    adFormReset.addEventListener(`click`, () => {
+      page.disable();
+    });
 
-    adForm.addEventListener(`submit`, function (evt) {
+    adForm.addEventListener(`submit`, (evt) => {
       evt.preventDefault();
-      backend.save(new FormData(adForm), function () {
-        page.disablePage();
+      backend.save(new FormData(adForm), () => {
+        page.disable();
         util.showSuccessSave();
       }, util.showErrorSave);
-
     });
   };
 
-  window.adFormAddHandlers = adFormAddHandlers;
+  window.addAdFormHandlers = addAdFormHandlers;
 })();

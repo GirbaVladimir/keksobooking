@@ -30,19 +30,23 @@
       const newSuccessPopup = document.querySelector(`#success`).content.cloneNode(true);
       document.querySelector(`main`).appendChild(newSuccessPopup);
 
-      const deleteSuccessPopup = function () {
+      const deleteSuccessPopup = () => {
         document.querySelector(`main`).removeChild(document.querySelector(`.success`));
-        document.removeEventListener(`mousedown`, deleteSuccessPopup);
+        document.removeEventListener(`mousedown`, onShowSuccessMousedown);
         document.removeEventListener(`keydown`, onShowSuccessSaveEscPress);
       };
 
-      const onShowSuccessSaveEscPress = function (evt) {
+      const onShowSuccessSaveEscPress = (evt) => {
         if (evt.key === `Escape`) {
           deleteSuccessPopup();
         }
       };
 
-      document.addEventListener(`mousedown`, deleteSuccessPopup);
+      const onShowSuccessMousedown = () => {
+        deleteSuccessPopup();
+      };
+
+      document.addEventListener(`mousedown`, onShowSuccessMousedown);
       document.addEventListener(`keydown`, onShowSuccessSaveEscPress);
     },
 
@@ -50,20 +54,28 @@
       const newErrorPopup = document.querySelector(`#error`).content.cloneNode(true);
       document.querySelector(`main`).appendChild(newErrorPopup);
 
-      const deleteErrorPopup = function () {
+      const deleteErrorPopup = () => {
         document.querySelector(`main`).removeChild(document.querySelector(`.error`));
-        document.removeEventListener(`mousedown`, deleteErrorPopup);
+        document.removeEventListener(`mousedown`, onErrorSaveMousedown);
         document.removeEventListener(`keydown`, onErrorSaveEscPress);
       };
 
-      const onErrorSaveEscPress = function (evt) {
+      const onErrorSaveClick = () => {
+        deleteErrorPopup();
+      };
+
+      const onErrorSaveMousedown = () => {
+        deleteErrorPopup();
+      };
+
+      const onErrorSaveEscPress = (evt) => {
         if (evt.key === `Escape`) {
           deleteErrorPopup();
         }
       };
 
-      document.querySelector(`.error__button`).addEventListener(`click`, deleteErrorPopup);
-      document.addEventListener(`mousedown`, deleteErrorPopup);
+      document.querySelector(`.error__button`).addEventListener(`click`, onErrorSaveClick);
+      document.addEventListener(`mousedown`, onErrorSaveMousedown);
       document.addEventListener(`keydown`, onErrorSaveEscPress);
     }
   };

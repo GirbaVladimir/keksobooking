@@ -15,13 +15,13 @@
       return `${parseInt(pin.style.left, 10) + MAIN_PIN_WIDTH / 2}, ${parseInt(pin.style.top, 10) + MAIN_PIN_HEIGHT}`;
     },
 
-    disablePage() {
+    disable() {
       const mapPinMain = document.querySelector(`.map__pin--main`);
       document.querySelector(`.map`).classList.add(`map--faded`);
       document.querySelector(`.ad-form`).reset();
       document.querySelector(`.ad-form`).classList.add(`ad-form--disabled`);
       document.querySelector(`.map__filters`).reset();
-      pinsAndCards.cleanPinsAndCards();
+      pinsAndCards.clean();
       util.disableFormElements(document.querySelector(`.ad-form`).children);
       util.disableFormElements(document.querySelector(`.map__filters`).children);
       window.scroll(0, 0);
