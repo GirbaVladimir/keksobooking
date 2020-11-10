@@ -9,7 +9,7 @@
       const xhr = new XMLHttpRequest();
       xhr.responseType = `json`;
 
-      xhr.addEventListener(`load`, function () {
+      xhr.addEventListener(`load`, () => {
         switch (xhr.status) {
           case 200:
             onSave();
@@ -27,7 +27,7 @@
       const xhr = new XMLHttpRequest();
       xhr.responseType = `json`;
 
-      xhr.addEventListener(`load`, function () {
+      xhr.addEventListener(`load`, () => {
         switch (xhr.status) {
           case 200:
             onLoad(xhr.response);
@@ -43,11 +43,11 @@
         }
       });
 
-      xhr.addEventListener(`error`, function () {
+      xhr.addEventListener(`error`, () => {
         onError(`Ошибка соединения`);
       });
 
-      xhr.addEventListener(`timeout`, function () {
+      xhr.addEventListener(`timeout`, () => {
         onError(`Ошибка соединения. Превышено время ожидания`);
       });
 

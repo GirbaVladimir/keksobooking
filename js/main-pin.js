@@ -3,14 +3,17 @@
 (function () {
   const MAIN_PIN_HEIGHT = window.MAIN_PIN_HEIGHT;
   const MAIN_PIN_WIDTH = window.MAIN_PIN_WIDTH;
+  const MIN_Y_COORDINATE = 130;
+  const MAX_Y_COORDINATE = 630;
+  const MIN_X_COORDINATE = 0;
+  const MAX_X_COORDINATE = document.querySelector(`.map__overlay`).clientWidth;
 
   const page = window.page;
   const backend = window.backend;
-  const adFormAddHandlers = window.adFormAddHandlers;
   const util = window.util;
   const map = window.map;
 
-  const activateMainPin = function () {
+  const activateMainPin = () => {
     const mapContainer = document.querySelector(`.map`);
     const mapPinMain = document.querySelector(`.map__pin--main`);
     const adFormChildrens = document.querySelector(`.ad-form`).children;
@@ -20,18 +23,16 @@
     util.enableFormElements(adFormChildrens);
     util.enableFormElements(mapFormChildrens);
     backend.load(map.successHandler, map.errorHandler);
-    adFormAddHandlers();
-    map.mapFilterAddHandlers();
     inputCoordinates.value = page.getCoordinates(mapPinMain);
     mapContainer.classList.remove(`map--faded`);
     adForm.classList.remove(`ad-form--disabled`);
   };
 
-  const addMainPinHandlers = function () {
+  const addMainPinHandlers = () => {
     const mapContainer = document.querySelector(`.map`);
     const mapPinMain = document.querySelector(`.map__pin--main`);
 
-    mapPinMain.addEventListener(`mousedown`, function (evt) {
+    mapPinMain.addEventListener(`mousedown`, (evt) => {
       evt.preventDefault();
 
       if (evt.button === 0) {
@@ -46,7 +47,7 @@
           y: evt.clientY
         };
 
-        const onMouseMove = function (moveEvt) {
+        const onMouseMove = (moveEvt) => {
           moveEvt.preventDefault();
 
           const shift = {
@@ -59,19 +60,17 @@
             y: moveEvt.clientY
           };
 
-          if (((mapPinMain.offsetTop - shift.y + MAIN_PIN_HEIGHT) >= 130)
-            && ((mapPinMain.offsetTop - shift.y + MAIN_PIN_HEIGHT) <= 630)
-            && ((mapPinMain.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2) >= 0)
-            && ((mapPinMain.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2) <=
-              document.querySelector(`.map__overlay`).clientWidth)) {
-
+          if (((mapPinMain.offsetTop - shift.y + MAIN_PIN_HEIGHT) >= MIN_Y_COORDINATE)
+            && ((mapPinMain.offsetTop - shift.y + MAIN_PIN_HEIGHT) <= MAX_Y_COORDINATE)
+            && ((mapPinMain.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2) >= MIN_X_COORDINATE)
+            && ((mapPinMain.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2) <= MAX_X_COORDINATE)) {
             mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + `px`;
             mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
             inputCoordinates.value = page.getCoordinates(document.querySelector(`.map__pin--main`));
           }
         };
 
-        const onMouseUp = function (upEvt) {
+        const onMouseUp = (upEvt) => {
           upEvt.preventDefault();
 
           inputCoordinates.value = page.getCoordinates(document.querySelector(`.map__pin--main`));
@@ -84,7 +83,7 @@
       }
     });
 
-    mapPinMain.addEventListener(`keydown`, function (evt) {
+    mapPinMain.addEventListener(`keydown`, (evt) => {
       if (evt.key === `Enter` && map.classList.contains(`map--faded`)) {
         activateMainPin();
       }
