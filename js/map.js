@@ -154,6 +154,11 @@
 
     resetPinsFilters() {
       pinHouseType = `any`;
+      pinPrice = `any`;
+      pinRooms = `any`;
+      pinGuests = `any`;
+      pinFeatures = [];
+      pins = [];
     },
 
     addMapFilterHandlers() {

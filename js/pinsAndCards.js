@@ -22,8 +22,10 @@
 
       const fragment = document.createDocumentFragment();
       for (let i = 0; i < pinsArray.length; i++) {
-        fragment.appendChild(createPin(pinsArray[i]));
-        map.insertBefore(createHiddenCard(pinsArray[i]), document.querySelector(`.map__filters-container`));
+        if (pinsArray[i].hasOwnProperty(`offer`)) {
+          fragment.appendChild(createPin(pinsArray[i]));
+          map.insertBefore(createHiddenCard(pinsArray[i]), document.querySelector(`.map__filters-container`));
+        }
       }
       pinsContainer.appendChild(fragment);
     }
