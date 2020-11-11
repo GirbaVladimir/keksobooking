@@ -29,6 +29,9 @@ const page = {
     mapPinMain.style.top = MAIN_PIN_START_TOP;
     document.querySelector(`input[name=address]`).value =
       page.getCoordinates(document.querySelector(`.map__pin--main`));
+    document.querySelector(`.ad-form__photo`).innerHTML = ``;
+    document.querySelector(`.ad-form-header__preview`)
+      .querySelector(`img`).src = `img/muffin-grey.svg`;
   }
 };
 
