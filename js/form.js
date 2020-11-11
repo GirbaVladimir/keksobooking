@@ -3,6 +3,7 @@
 const MIN_AD_TITLE = 30;
 const MAX_AD_TITLE = 100;
 const MAX_AD_PRICE = 1000000;
+const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 let minAdPrice = 1000;
 
 const page = window.page;
@@ -27,6 +28,37 @@ const addTimeInOutHandler = (selectorForAddEvent, selectorForChangeSelectValue) 
   });
 };
 
+const addShowPhotoHandler = (fileChooser, preview, isAvatar = true) => {
+  fileChooser.addEventListener(`change`, function () {
+    const file = fileChooser.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      const reader = new FileReader();
+
+      reader.addEventListener(`load`, function () {
+        if (isAvatar) {
+          preview.src = reader.result;
+        } else {
+          preview.innerHTML = ``;
+          const node = document.createElement(`img`);
+          node.width = 70;
+          node.height = 70;
+          node.src = reader.result;
+          node.alt = `House Photo`;
+          preview.appendChild(node);
+        }
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
+};
+
 const addAdFormHandlers = () => {
   const adForm = document.querySelector(`.ad-form`);
   const adFormReset = document.querySelector(`.ad-form__reset`);
@@ -38,6 +70,13 @@ const addAdFormHandlers = () => {
   const adSubmit = document.querySelector(`.ad-form__submit`);
   const adTimeIn = document.querySelector(`select[name=timein]`);
   const adTimeOut = document.querySelector(`select[name=timeout]`);
+  const adAvatar = document.querySelector(`.ad-form-header__input`);
+  const adAvatarPreview = document.querySelector(`.ad-form-header__preview`).querySelector(`img`);
+  const adHousePhoto = document.querySelector(`.ad-form__input`);
+  const adHousePhotoPreview = document.querySelector(`.ad-form__photo`);
+
+  addShowPhotoHandler(adAvatar, adAvatarPreview);
+  addShowPhotoHandler(adHousePhoto, adHousePhotoPreview, false);
 
   adTitle.addEventListener(`input`, () => {
     const valueLength = adTitle.value.length;
