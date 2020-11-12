@@ -1,5 +1,12 @@
 'use strict';
 
+const OFFER_TYPE = {
+  flat: `Квартира`,
+  bungalow: `Бунгало`,
+  house: `Дом`,
+  palace: `Дворец`
+};
+
 const createHiddenCard = (pin) => {
   const newCard = document.querySelector(`#card`).content.cloneNode(true);
   newCard.querySelector(`.popup__title`).textContent = pin.offer.title;
@@ -8,16 +15,16 @@ const createHiddenCard = (pin) => {
   const type = newCard.querySelector(`.popup__type`);
   switch (pin.offer.type) {
     case `flat`:
-      type.textContent = `Квартира`;
+      type.textContent = OFFER_TYPE.flat;
       break;
     case `bungalow`:
-      type.textContent = `Бунгало`;
+      type.textContent = OFFER_TYPE.bungalow;
       break;
     case `house`:
-      type.textContent = `Дом`;
+      type.textContent = OFFER_TYPE.house;
       break;
     case `palace`:
-      type.textContent = `Дворец`;
+      type.textContent = OFFER_TYPE.palace;
       break;
     default:
       type.textContent = `Любой тип жилья`;

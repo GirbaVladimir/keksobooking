@@ -29,7 +29,7 @@ const util = {
     };
   },
 
-  showLoadError(errorMessage) {
+  showError(errorMessage) {
     const node = document.createElement(`div`);
     node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red; max-width: 1200px`;
     node.style.position = `absolute`;

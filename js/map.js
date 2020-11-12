@@ -202,12 +202,14 @@ const map = {
   },
 
   successHandler(data) {
+    const mapFormChildrens = document.querySelector(`.map__filters`).children;
+    util.enableFormElements(mapFormChildrens);
     pins = data;
     updatePins();
   },
 
   errorHandler(errorMessage) {
-    util.showLoadError(errorMessage);
+    util.showError(errorMessage);
   }
 };
 

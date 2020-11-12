@@ -16,11 +16,9 @@ const activateMainPin = () => {
   const mapContainer = document.querySelector(`.map`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
   const adFormChildrens = document.querySelector(`.ad-form`).children;
-  const mapFormChildrens = document.querySelector(`.map__filters`).children;
   const adForm = document.querySelector(`.ad-form`);
   const inputCoordinates = document.querySelector(`input[name=address]`);
   util.enableFormElements(adFormChildrens);
-  util.enableFormElements(mapFormChildrens);
   backend.load(map.successHandler, map.errorHandler);
   inputCoordinates.value = page.getCoordinates(mapPinMain);
   mapContainer.classList.remove(`map--faded`);

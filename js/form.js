@@ -3,7 +3,7 @@
 const MIN_AD_TITLE = 30;
 const MAX_AD_TITLE = 100;
 const MAX_AD_PRICE = 1000000;
-const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
+const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`, `svg`];
 let minAdPrice = 1000;
 
 const page = window.page;
@@ -38,6 +38,7 @@ const addShowPhotoHandler = (fileChooser, preview, isAvatar = true) => {
     });
 
     if (matches) {
+      fileChooser.setCustomValidity(``);
       const reader = new FileReader();
 
       reader.addEventListener(`load`, function () {
@@ -55,6 +56,8 @@ const addShowPhotoHandler = (fileChooser, preview, isAvatar = true) => {
       });
 
       reader.readAsDataURL(file);
+    } else {
+      fileChooser.setCustomValidity(`Файл не является изображением!`);
     }
   });
 };
@@ -91,13 +94,7 @@ const addAdFormHandlers = () => {
   });
 
   adPrice.addEventListener(`input`, () => {
-    const valueAmount = parseInt(adPrice.value, 10);
-
-    if (valueAmount > MAX_AD_PRICE) {
-      adPrice.setCustomValidity(`Максимальная цена составляет: ${MAX_AD_PRICE}`);
-    } else {
-      adPrice.setCustomValidity(``);
-    }
+    adPrice.value = adPrice.value.replace(/[^0-9.]/g, ``);
   });
 
   adType.addEventListener(`change`, () => {
@@ -139,8 +136,9 @@ const addAdFormHandlers = () => {
     } else {
       adRooms.setCustomValidity(``);
     }
-
-    if (adPrice.value < minAdPrice) {
+    if (adPrice.value > MAX_AD_PRICE) {
+      adPrice.setCustomValidity(`Максимальная цена составляет: ${MAX_AD_PRICE}`);
+    } else if (adPrice.value < minAdPrice) {
       adPrice.setCustomValidity(`Минимальная цена для данного типа жилья составляет ${minAdPrice} рублей`);
     } else {
       adPrice.setCustomValidity(``);

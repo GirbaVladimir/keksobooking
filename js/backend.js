@@ -13,9 +13,19 @@ const backend = {
         case 200:
           onSave();
           break;
+        case 500:
+          onError();
+          break;
+        case 404:
+          onError(`Ничего не найдено`);
+          break;
         default:
-          onError(`Статус ответа: : ${xhr.status} ${xhr.statusText}`);
+          onError();
       }
+    });
+
+    xhr.addEventListener(`error`, () => {
+      onError();
     });
 
     xhr.open(`POST`, SAVE_URL);
