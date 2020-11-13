@@ -12,4 +12,4 @@ util.disableFormElements(document.querySelector(`.ad-form`).children);
 util.disableFormElements(document.querySelector(`.map__filters`).children);
 addMainPinHandlers();
 addAdFormHandlers();
-map.addMapFilterHandlers();
+map.addFilterHandlers();

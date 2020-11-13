@@ -4,15 +4,15 @@ const DEBOUNCE_INTERVAL = 500;
 
 const util = {
 
-  disableFormElements(arr) {
-    for (let i = 0; i < arr.length; i++) {
-      arr[i].disabled = true;
+  disableFormElements(nodes) {
+    for (let i = 0; i < nodes.length; i++) {
+      nodes[i].disabled = true;
     }
   },
 
-  enableFormElements(arr) {
-    for (let i = 0; i < arr.length; i++) {
-      arr[i].disabled = false;
+  enableFormElements(nodes) {
+    for (let i = 0; i < nodes.length; i++) {
+      nodes[i].disabled = false;
     }
   },
 

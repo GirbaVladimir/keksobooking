@@ -2,16 +2,17 @@
 
 const MAIN_PIN_START_LEFT = document.querySelector(`.map__pin--main`).style.left;
 const MAIN_PIN_START_TOP = document.querySelector(`.map__pin--main`).style.top;
-const MAIN_PIN_HEIGHT = 83;
-const MAIN_PIN_WIDTH = 66;
 
 const pinsAndCards = window.pinsAndCards;
 const util = window.util;
 const map = window.map;
 
 const page = {
+  MAIN_PIN_HEIGHT: 83,
+  MAIN_PIN_WIDTH: 66,
+
   getCoordinates(pin) {
-    return `${parseInt(pin.style.left, 10) + MAIN_PIN_WIDTH / 2}, ${parseInt(pin.style.top, 10) + MAIN_PIN_HEIGHT}`;
+    return `${parseInt(pin.style.left, 10) + this.MAIN_PIN_WIDTH / 2}, ${parseInt(pin.style.top, 10) + this.MAIN_PIN_HEIGHT}`;
   },
 
   disable() {
@@ -35,6 +36,4 @@ const page = {
   }
 };
 
-window.MAIN_PIN_HEIGHT = MAIN_PIN_HEIGHT;
-window.MAIN_PIN_WIDTH = MAIN_PIN_WIDTH;
 window.page = page;

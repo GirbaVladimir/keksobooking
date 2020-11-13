@@ -10,6 +10,12 @@ const page = window.page;
 const util = window.util;
 const backend = window.backend;
 
+const resetPrice = () => {
+  const adPrice = document.querySelector(`input[name=price]`);
+  minAdPrice = 1000;
+  adPrice.placeholder = minAdPrice;
+};
+
 const addTimeInOutHandler = (selectorForAddEvent, selectorForChangeSelectValue) => {
   selectorForAddEvent.addEventListener(`change`, () => {
     switch (selectorForAddEvent.value) {
@@ -147,12 +153,14 @@ const addAdFormHandlers = () => {
 
   adFormReset.addEventListener(`click`, () => {
     page.disable();
+    resetPrice();
   });
 
   adForm.addEventListener(`submit`, (evt) => {
     evt.preventDefault();
     backend.save(new FormData(adForm), () => {
       page.disable();
+      resetPrice();
       util.showSuccessSave();
     }, util.showErrorSave);
   });

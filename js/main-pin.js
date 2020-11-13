@@ -1,7 +1,5 @@
 'use strict';
 
-const MAIN_PIN_HEIGHT = window.MAIN_PIN_HEIGHT;
-const MAIN_PIN_WIDTH = window.MAIN_PIN_WIDTH;
 const MIN_Y_COORDINATE = 130;
 const MAX_Y_COORDINATE = 630;
 const MIN_X_COORDINATE = 0;
@@ -57,10 +55,10 @@ const addMainPinHandlers = () => {
           y: moveEvt.clientY
         };
 
-        if (((mapPinMain.offsetTop - shift.y + MAIN_PIN_HEIGHT) >= MIN_Y_COORDINATE)
-          && ((mapPinMain.offsetTop - shift.y + MAIN_PIN_HEIGHT) <= MAX_Y_COORDINATE)
-          && ((mapPinMain.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2) >= MIN_X_COORDINATE)
-          && ((mapPinMain.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2) <= MAX_X_COORDINATE)) {
+        if (((mapPinMain.offsetTop - shift.y + page.MAIN_PIN_HEIGHT) >= MIN_Y_COORDINATE)
+          && ((mapPinMain.offsetTop - shift.y + page.MAIN_PIN_HEIGHT) <= MAX_Y_COORDINATE)
+          && ((mapPinMain.offsetLeft - shift.x + page.MAIN_PIN_WIDTH / 2) >= MIN_X_COORDINATE)
+          && ((mapPinMain.offsetLeft - shift.x + page.MAIN_PIN_WIDTH / 2) <= MAX_X_COORDINATE)) {
           mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + `px`;
           mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + `px`;
           inputCoordinates.value = page.getCoordinates(document.querySelector(`.map__pin--main`));

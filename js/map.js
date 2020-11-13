@@ -162,7 +162,7 @@ const map = {
     pins = [];
   },
 
-  addMapFilterHandlers() {
+  addFilterHandlers() {
     const houseTypeSelect = document.querySelector(`select[name=housing-type]`);
     const housePriceSelect = document.querySelector(`select[name=housing-price]`);
     const houseRoomsSelect = document.querySelector(`select[name=housing-rooms]`);
